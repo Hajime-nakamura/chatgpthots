@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:ollama
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"   # Open WebUI を外部へ公開
+    volumes:
+      - ollama:/root/.ollama
+      - open-webui:/app/backend/data
+    # GPU を使う EC2 の場合はコメント解除（nvidia-container-toolkit 必須）
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  flask-addon:
+    build:
+      context: ./flask-addon
+    container_name: flask-addon
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./flask-addon/.env
+    depends_on:
+      - open-webui
+
+volumes:
+  ollama:
+  open-webui:

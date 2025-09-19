@@ -1,0 +1,24 @@
+
+---
+
+# 3) .gitignore
+
+```gitignore
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Node/Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Docker build
+flask-addon/.pytest_cache/
+flask-addon/.mypy_cache/
